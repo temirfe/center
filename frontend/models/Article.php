@@ -67,6 +67,7 @@ class Article extends MyModel
             'date_create' => Yii::t('app', 'Date Create'),
             'footnotes' => Yii::t('app', 'Footnotes'),
             'own' => Yii::t('app', 'Own article'),
+            'views' => Yii::t('app', 'Views'),
         ];
 
         return ArrayHelper::merge(parent::attributeLabels(),$rules);

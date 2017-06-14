@@ -32,7 +32,7 @@ $dep = new DbDependency();
 $dep->sql = 'SELECT MAX(last_update) FROM depend WHERE table_name="article"';
 
 $owns = $dao->cache(function ($dao) use($banner_article_id) {
-    return Article::find()->where("own=1 AND id<>{$banner_article_id}")->orderBy('id DESC')->all();
+    return Article::find()->where("own=1 AND id<>{$banner_article_id}")->orderBy('id DESC')->limit(5)->all();
 }, 3600, $dep);
 $articles = $dao->cache(function ($dao) {
     return Article::find()->select('id,title')->where("own=0")->orderBy('id DESC')->limit(10)->all();

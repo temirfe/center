@@ -141,7 +141,40 @@ if($controller=='site' && $action=="partners") $partner_active=true; else $partn
                 <span></span>
             </a>
         </div>
-        <p class="text-center mb0 font12"><?=Yii::t('app','All rights reserved.')?> &copy; <?= date('Y') ?></p>
+        <p class="text-center mb5 font12"><?=Yii::t('app','All rights reserved.')?> &copy; <?= date('Y') ?></p>
+        <div class="text-center mb0">
+            <!-- WWW.NET.KG , code for http://center.kg -->
+            <script language="javascript" type="text/javascript">
+                java="1.0";
+                java1=""+"refer="+escape(document.referrer)+"&amp;page="+escape(window.location.href);
+                document.cookie="astratop=1; path=/";
+                java1+="&amp;c="+(document.cookie?"yes":"now");
+            </script>
+            <script language="javascript1.1" type="text/javascript">
+                java="1.1";
+                java1+="&amp;java="+(navigator.javaEnabled()?"yes":"now");
+            </script>
+            <script language="javascript1.2" type="text/javascript">
+                java="1.2";
+                java1+="&amp;razresh="+screen.width+'x'+screen.height+"&amp;cvet="+
+                    (((navigator.appName.substring(0,3)=="Mic"))?
+                        screen.colorDepth:screen.pixelDepth);
+            </script>
+            <script language="javascript1.3" type="text/javascript">java="1.3"</script>
+            <script language="javascript" type="text/javascript">
+                java1+="&amp;jscript="+java+"&amp;rand="+Math.random();
+                document.write("<a href='https://www.net.kg/stat.php?id=5556&amp;fromsite=5556' target='_blank'>"+
+                    "<img src='https://www.net.kg/img.php?id=5556&amp;"+java1+
+                    "' border='0' alt='WWW.NET.KG' width='21' height='16' /></a>");
+            </script>
+            <noscript>
+                <a href='https://www.net.kg/stat.php?id=5556&amp;fromsite=5556' target='_blank'><img
+                        src="https://www.net.kg/img.php?id=5556" border='0' alt='WWW.NET.KG' width='21'
+                        height='16' /></a>
+            </noscript>
+            <!-- /WWW.NET.KG -->
+
+        </div>
 
     </div>
 </footer>

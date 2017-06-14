@@ -60,7 +60,7 @@ return [
     'Event' => 'Мероприятие',
     'Organization' => 'Организация',
     'Job Title' => 'Должность',
-    'Date Create' => 'Дата создания',
+    'Date Create' => 'Дата',
     'You have successfully registered for event.' => 'Вы успешно зарегистрировались на данное мероприятие',
     'Register to attend' => 'Зарегистрироваться',
 

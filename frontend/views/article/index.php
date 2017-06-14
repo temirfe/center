@@ -45,8 +45,9 @@ $ctg=ArrayHelper::map($rows,'id','title');
                 'contentOptions'=>['width'=>180]
             ],
             // 'expert_id',
-            // 'date_create',
+             'date_create',
             // 'footnotes',
+            ['attribute' => 'views', 'contentOptions'=>['width'=>130]],
 
             ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['width'=>80]],
         ],
