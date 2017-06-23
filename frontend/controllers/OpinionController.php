@@ -3,50 +3,39 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Article;
-use frontend\models\ArticleSearch;
+use frontend\models\Opinion;
+use frontend\models\OpinionSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\data\ActiveDataProvider;
-use yii\imagine\Image;
+use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * OpinionController implements the CRUD actions for Opinion model.
  */
-class ArticleController extends MyController
+class OpinionController extends Controller
 {
-
-    public function actionList()
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
     {
-        /*if(Yii::$app->language=='ru')
-        {
-            $content_lang='1';
-        }
-        else{
-            $content_lang='0';
-        }*/
-        $ctg=Yii::$app->request->get('category');
-        if($ctg){$query=Article::find()->where(['category_id'=>$ctg]);}
-        else{$query=Article::find();}
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
             ],
-            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
-        ]);
-
-        return $this->render('list', [
-            'dataProvider' => $dataProvider,
-        ]);
+        ];
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Opinion models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
+        $searchModel = new OpinionSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,27 +45,25 @@ class ArticleController extends MyController
     }
 
     /**
-     * Displays a single Article model.
+     * Displays a single Opinion model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model=$this->findModel($id);
-        $model->updateCounters(['views'=>1]);
         return $this->render('view', [
-            'model' => $model,
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Article model.
+     * Creates a new Opinion model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Article();
+        $model = new Opinion();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -88,7 +75,7 @@ class ArticleController extends MyController
     }
 
     /**
-     * Updates an existing Article model.
+     * Updates an existing Opinion model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -107,7 +94,7 @@ class ArticleController extends MyController
     }
 
     /**
-     * Deletes an existing Article model.
+     * Deletes an existing Opinion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,31 +107,18 @@ class ArticleController extends MyController
     }
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Opinion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Opinion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne($id)) !== null) {
+        if (($model = Opinion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    public function actionRun(){
-
-        $dir=Yii::getAlias('@webroot')."/images/article/";
-
-        $rows=Yii::$app->db->createCommand("SELECT id, image FROM article")->queryAll();
-        foreach($rows as $row){
-            $tosave=$dir.$row['id'];
-            if(is_dir($tosave)){
-                Image::thumbnail($tosave.'/'.$row['image'],600, 340)->save($tosave.'/m_'.$row['image']);
-            }
         }
     }
 }

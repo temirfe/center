@@ -50,7 +50,7 @@ class MyController extends Controller
                         'roles' => ['crud'],
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index','run'],
                         'allow' => true,
                         'roles' => ['crud'],
                     ],

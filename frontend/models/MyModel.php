@@ -66,7 +66,7 @@ class MyModel extends \yii\db\ActiveRecord
         $this->imageFile = UploadedFile::getInstance($this, 'imageFile');
         $this->imageFiles = UploadedFile::getInstances($this, 'imageFiles');
 
-        if (Yii::$app->request->serverName=='tohama.loc') {
+        if (Yii::$app->request->serverName=='center.loc') {
             Image::$driver = [Image::DRIVER_GD2];
         }
 
@@ -89,6 +89,10 @@ class MyModel extends \yii\db\ActiveRecord
                 $imagine=Image::getImagine()->open($tosave.'/'.$imageName);
                 $imagine->thumbnail(new Box(1500, 1000))->save($tosave.'/'.$imageName);
                 //$imagine->thumbnail(new Box(400, 250))->save($tosave.'/s_'.$imageName);
+                if($model_name=='article')
+                {
+                    Image::thumbnail($tosave.'/'.$imageName,600, 340)->save($tosave.'/m_'.$imageName);
+                }
                 $width=375;
                 if($model_name=='expert') $width=200;
                 Image::thumbnail($tosave.'/'.$imageName,$width, 200)->save($tosave.'/s_'.$imageName);

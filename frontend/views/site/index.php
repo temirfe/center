@@ -6,6 +6,11 @@ use frontend\models\Article;
 use frontend\models\Event;
 use frontend\models\Video;
 use yii\caching\DbDependency;
+use frontend\assets\BxSliderAsset;
+
+
+BxSliderAsset::register($this);
+
 //$this->title = 'Центр политико-правовых исследований';
 $this->title = Yii::t('app','CPLR | Center for political and legal research');
 $dao=Yii::$app->db;
@@ -40,58 +45,45 @@ $articles = $dao->cache(function ($dao) {
 
 //$events=Event::find()->where('date_end>NOW()')->orderBy('id DESC')->limit(5)->all();
 $events=Event::find()->orderBy('id DESC')->limit(5)->all();
-$videos=Video::find()->orderBy('id DESC')->limit(6)->all();
-?>
-<?php
-if(!empty($bmodel)){
-    ?>
+$videos=Video::find()->orderBy('id DESC')->limit(4)->all();
+
+/*if(!empty($bmodel)){
+    */?><!--
     <div class="slider_wrap mt-20 mb40">
         <div class="slider">
             <?php
-            $slider_img=Html::img('/images/'.$banner['model_name'].'/'.$banner['model_id'].'/'.$bmodel->image);
+/*            $slider_img=Html::img('/images/'.$banner['model_name'].'/'.$banner['model_id'].'/'.$bmodel->image);
             echo Html::a($slider_img,['/'.$banner['model_name'].'/view','id'=>$bmodel->id]);
-            ?>
+            */?>
         </div>
         <div class="slider_title">
-            <div class="text-uppercase bold white mb5 font12"><?=$msg?></div>
-            <h1><?= Html::a($bmodel->title,['/'.$banner['model_name'].'/view','id'=>$bmodel->id],['class'=>'white hover_white']) ?></h1>
-            <?=$subtitle?>
+            <div class="text-uppercase bold white mb5 font12"><?/*=$msg*/?></div>
+            <h1><?/*= Html::a($bmodel->title,['/'.$banner['model_name'].'/view','id'=>$bmodel->id],['class'=>'white hover_white']) */?></h1>
+            <?/*=$subtitle*/?>
         </div>
     </div>
-<?php
-}
-?>
+--><?php
+/*}
+*/?>
 
 <div class="site-index large-container oh pb20">
-
-    <div class="body-content">
-        <div class="col-md-4 oh">
-            <?php
-            if(!empty($articles)){
-                echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Interesting materials')."</h3>";
-                foreach($articles as $art){
-                    echo Html::a("<span class='mr4 block pull-left'>—</span><span class='oh block'>".$art->title."</span>",['/article/view','id'=>$art->id],['class'=>'mb5 iblock color3 roboto no_underline w100']);
+    <div class="top_content mt10">
+        <div class="bxslider_wrap">
+            <ul class="bxslider">
+                <?php
+                foreach ($owns as $article){
+                    echo "<li><a href='article/{$article->id}'><img class='bximg' src='/images/article/{$article->id}/m_{$article->image}' title='<a href=\"article/{$article->id}\">{$article->title}</a>' /></a></li>";
                 }
-            }
-            ?>
+                ?>
+            </ul>
         </div>
-        <div class="col-md-4 oh">
+        <div class="headlights">
             <?php
             if($owns){
-                echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Center Articles')."</h3>";
+                //echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Center Articles')."</h3>";
                 foreach ($owns as $article){
                     ?>
                     <div class="oh mb20">
-                        <div class='own_thumb pull-left mr10'>
-                            <?php
-                            if($article->image){
-                                $img=Html::img("/images/article/".$article->id."/s_".$article->image,['class'=>'img-responsive']);
-                                echo Html::a($img,['/article/view','id'=>$article->id],['class'=>'img-responsive rel js_des_list_img']);
-
-                            }
-                            ?>
-                        </div>
-
                         <div class="oh">
                             <?=Html::a($article->title,['/article/view','id'=>$article->id],['class'=>'black own_title roboto font16']); ?>
                             <div class="color9 mt5 roboto font13">
@@ -109,6 +101,37 @@ if(!empty($bmodel)){
             }
             ?>
         </div>
+    </div>
+
+    <div class="clear"></div>
+    <br />
+    <div class="body-content mt15">
+        <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app','Media')?></h3>
+        <div class="video_thumbs">
+            <?php
+            foreach($videos as $video){
+                $vimg=Html::img($video->thumb,['class'=>'img-responsive']);
+                echo "<div class='vthumb mb20 rel'>"
+                    .Html::a($vimg.$video->title,['/video/view','id'=>$video->id],['class'=>'', 'data-id'=>$video->video_id])
+                    ."<span class='abs tube iblock'></span></span></div>";
+            }
+            ?>
+        </div>
+        <div class="clear"></div>
+        <br />
+        <div class="col-md-4 oh">
+            <?php
+            if(!empty($articles)){
+                echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Interesting materials')."</h3>";
+                foreach($articles as $art){
+                    echo Html::a("<span class='mr4 block pull-left'>—</span><span class='oh block'>".$art->title."</span>",['/article/view','id'=>$art->id],['class'=>'mb5 iblock color3 roboto no_underline w100']);
+                }
+            }
+            ?>
+        </div>
+        <div class="col-md-4 oh">
+
+        </div>
         <div class="col-md-4 oh">
             <?php
             if($events){
@@ -124,35 +147,6 @@ if(!empty($bmodel)){
         <br />
         <div class="mt20 large-container">
             <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app','Media')?></h3>
-            <div class="row">
-                <div class="col-md-9">
-                    <?php
-                    $v=0; $vdisplay='';
-                    foreach($videos as $video){
-                        $src="https://www.youtube.com/embed/{$video->video_id}";
-                        if($v>0) $vdisplay='hiddeniraak';
-                        ?>
-                        <div class="video <?=$vdisplay?> js_vid" data-video="<?=$video->video_id?>">
-                            <iframe id="vid-<?=$video->video_id?>" src="<?=$src ?>" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <?php
-                        $v++;
-                    }
-                    ?>
-                </div>
-                <div class="col-md-3 pl5">
-                    <div class="vid_thumbs">
-                        <?php
-                        foreach($videos as $video){
-                            $vimg=Html::img($video->thumb,['class'=>'img-responsive']);
-                            echo "<div class='mb20 rel pr5'>"
-                                .Html::a($vimg.$video->title,['/video/view','id'=>$video->id],['class'=>'js_vid_thumb', 'data-id'=>$video->video_id])
-                                ."<span class='abs tube iblock'></span></span></div>";
-                        }
-                        ?>
-                    </div>
-                </div>
-            </div>
         </div>
 
 

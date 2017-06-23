@@ -98,3 +98,13 @@ $('.js_sections_toggle').click(function(e){
     if(sec.hasClass('js_sec_open')){sec.removeClass('sections_visible js_sec_open'); fa.removeClass('fa-times').addClass('fa-bars');}
     else {sec.addClass('sections_visible js_sec_open');fa.addClass('fa-times').removeClass('fa-bars');}
 });
+
+/*$('.bxslider').bxSlider({
+    mode: 'fade',
+    captions: true,
+    controls:false,
+    auto:true,
+    autoHover:true
+});*/
+
+$('.bximg').mouseover(function(){$(this).attr('title','');});
