@@ -1,10 +1,12 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $opinion frontend\models\Opinion */
 use yii\helpers\Html;
 use frontend\models\Article;
 use frontend\models\Event;
 use frontend\models\Video;
+use frontend\models\Opinion;
 use yii\caching\DbDependency;
 use frontend\assets\BxSliderAsset;
 
@@ -14,57 +16,21 @@ BxSliderAsset::register($this);
 //$this->title = 'Центр политико-правовых исследований';
 $this->title = Yii::t('app','CPLR | Center for political and legal research');
 $dao=Yii::$app->db;
-$banner=$dao->createCommand("SELECT * FROM banner ORDER BY id DESC LIMIT 1")->queryOne();
-$msg='';$subtitle='';$banner_article_id=0;
-if(isset($banner['model_name'])){
-    if($banner['model_name']=='article'){
-        $bmodel=Article::findOne($banner['model_id']);
-        $msg=$bmodel->getLangTitle();
-        $subtitle="<div class='white mt10 font12 subtitle'><div class='afterdot pull-left'>".$bmodel->getAuthors()."</div>
-        <time class='date'>".Yii::$app->formatter->asDate($bmodel->date_create)."</time></div>";
-        $banner_article_id=$bmodel->id;
-    }
-    else if($banner['model_name']=='event'){
-        $bmodel=Event::findOne($banner['model_id']);
-        $status=$bmodel->getStatus();
-        $msg=$status['msg'];
 
-        $date=$bmodel->getDates();
-        $subtitle="<div class='white font13 mt10 roboto'>".$date['start']."</div>";
-    }
-}
 $dep = new DbDependency();
 $dep->sql = 'SELECT MAX(last_update) FROM depend WHERE table_name="article"';
 
-$owns = $dao->cache(function ($dao) use($banner_article_id) {
-    return Article::find()->where("own=1 AND id<>{$banner_article_id}")->orderBy('id DESC')->limit(5)->all();
+$owns = $dao->cache(function ($dao) {
+    return Article::find()->where("own=1")->orderBy('id DESC')->limit(5)->all();
 }, 3600, $dep);
 $articles = $dao->cache(function ($dao) {
-    return Article::find()->select('id,title')->where("own=0")->orderBy('id DESC')->limit(10)->all();
+    return Article::find()->select('id,title')->where("own=0")->orderBy('id DESC')->limit(5)->all();
 }, 3600, $dep);
 
-//$events=Event::find()->where('date_end>NOW()')->orderBy('id DESC')->limit(5)->all();
-$events=Event::find()->orderBy('id DESC')->limit(5)->all();
+$events=Event::find()->where('date_end>NOW()')->orderBy('id DESC')->limit(2)->all();
 $videos=Video::find()->orderBy('id DESC')->limit(4)->all();
-
-/*if(!empty($bmodel)){
-    */?><!--
-    <div class="slider_wrap mt-20 mb40">
-        <div class="slider">
-            <?php
-/*            $slider_img=Html::img('/images/'.$banner['model_name'].'/'.$banner['model_id'].'/'.$bmodel->image);
-            echo Html::a($slider_img,['/'.$banner['model_name'].'/view','id'=>$bmodel->id]);
-            */?>
-        </div>
-        <div class="slider_title">
-            <div class="text-uppercase bold white mb5 font12"><?/*=$msg*/?></div>
-            <h1><?/*= Html::a($bmodel->title,['/'.$banner['model_name'].'/view','id'=>$bmodel->id],['class'=>'white hover_white']) */?></h1>
-            <?/*=$subtitle*/?>
-        </div>
-    </div>
---><?php
-/*}
-*/?>
+$opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
+?>
 
 <div class="site-index large-container oh pb20">
     <div class="top_content mt10">
@@ -119,6 +85,48 @@ $videos=Video::find()->orderBy('id DESC')->limit(4)->all();
         </div>
         <div class="clear"></div>
         <br />
+
+        <?php if($opinions){
+
+        echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Opinions')."</h3>";
+            foreach($opinions as $opinion){
+                if($opinion->expert_id && !empty($opinion->expert->title)){
+                    $expert_name=$opinion->expert->title;
+                    $expert_title=$opinion->expert->description;
+                    $expert_image='/images/expert/'.$opinion->expert_id.'/s_'.$opinion->expert->image;
+                }
+                else{
+                    $expert_name=$opinion->name;
+                    $expert_title=$opinion->title;
+                    $expert_image='/images/opinion/'.$opinion->id.'/s_'.$opinion->image;
+                }
+
+                if($opinion->url){
+                    $opinion_text=Html::a($opinion->description,$opinion->url);
+                } else{
+                    $opinion_text=$opinion->description;
+                }
+                ?>
+                <div class="opinion_item pull-left mb20">
+                    <div class="pull-left quote_icon_wrap mr15">
+                        <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    </div>
+                    <div class="oh">
+                        <div class="opinion_text mb15"><?=$opinion_text;?></div>
+                        <div class="opinion_author">
+                            <div class="opinion_author_img pull-left mr15"><?=Html::img($expert_image,['class'=>'round author_image_small'])?></div>
+                            <div class="opinion_author_name">
+                                <div class="bold"><?=$expert_name?></div>
+                                <span class='font12 color69'><?=$expert_title?></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <?php
+            }
+            echo "<div class=\"clear\"></div><br />";
+        } ?>
+
         <div class="col-md-4 oh">
             <?php
             if(!empty($articles)){
@@ -129,25 +137,35 @@ $videos=Video::find()->orderBy('id DESC')->limit(4)->all();
             }
             ?>
         </div>
-        <div class="col-md-4 oh">
+        <?php
+        if($events){
+            ?>
+            <div class="col-md-4 oh">
 
-        </div>
-        <div class="col-md-4 oh">
-            <?php
-            if($events){
-                echo "<h3 class='roboto mb15 navy font19 bbthinblue mb20 pb5'>".Yii::t('app','Events')."</h3>";
+                <h3 class='roboto mb15 navy font19 bbthinblue mb20 pb5'><?=Yii::t('app','Events')?></h3>
+                <?php
                 foreach($events as $event){
                     echo "<div class='mb20 oh'>".$this->render('/event/_list',['model' => $event])."</div>";
                 }
-            }
-            ?>
+                ?>
+            </div>
+        <?php
+        }
+        ?>
+
+
+        <div class="col-md-4 oh fb_box">
+            <div class="fb-page" data-href="https://www.facebook.com/%D0%A6%D0%B5%D0%BD%D1%82%D1%80-%D0%BF%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%BE-%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D0%B2%D1%8B%D1%85-%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9-232160823883163/" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/%D0%A6%D0%B5%D0%BD%D1%82%D1%80-%D0%BF%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%BE-%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D0%B2%D1%8B%D1%85-%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9-232160823883163/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/%D0%A6%D0%B5%D0%BD%D1%82%D1%80-%D0%BF%D0%BE%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%BE-%D0%BF%D1%80%D0%B0%D0%B2%D0%BE%D0%B2%D1%8B%D1%85-%D0%B8%D1%81%D1%81%D0%BB%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B9-232160823883163/">ЦППИ - Центр политико-правовых исследований</a></blockquote></div>
+
+            <br />
+            <br />
+            <a class="twitter-follow-button"
+               href="https://twitter.com/CPLS_Center" data-size="large" data-show-count="false">
+                Follow @CPLS_Center</a>
         </div>
 
         <div class="clear"></div>
         <br />
-        <div class="mt20 large-container">
-            <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app','Media')?></h3>
-        </div>
 
 
     </div>

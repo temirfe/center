@@ -2,6 +2,7 @@
 return [
     'Home' => 'Главная',
     'About us' => 'О нас',
+    'Expert' => 'Эксперт',
     'Experts' => 'Эксперты',
     'Events' => 'Мероприятия',
     'Contact' => 'Контакты',
@@ -94,6 +95,11 @@ return [
     'Create Video' => 'Добавить видео',
     'Update Video' => 'Редактировать видео',
 
+    'Opinion' => 'Мнение',
+    'Opinions' => 'Мнения',
+    'Create Opinion' => 'Добавить мнение',
+    'Update Opinion' => 'Редактировать мнение',
+
 
     'Comment' => 'Комментарий',
     'Comments' => 'Комментарии',
@@ -149,5 +155,7 @@ return [
     'Your name' => 'Ваше имя',
     'Your comment:' => 'Написать комментарий:',
     'Views' => 'Просмотры',
+    'His/her Title' => 'Титул',
+    'Url' => 'Ссылка',
     '' => '',
 ];

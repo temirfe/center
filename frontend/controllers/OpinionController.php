@@ -12,22 +12,8 @@ use yii\filters\VerbFilter;
 /**
  * OpinionController implements the CRUD actions for Opinion model.
  */
-class OpinionController extends Controller
+class OpinionController extends MyController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
     /**
      * Lists all Opinion models.

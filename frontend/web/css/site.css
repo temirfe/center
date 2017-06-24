@@ -779,7 +779,7 @@ a.hover_white:hover{color:#fff;}
     overflow: hidden;
     padding-top: 10px;}
 .comment-row .avatar-col{ margin-right: 14px;}
-.bxslider_wrap{overflow:hidden; max-height:370px; max-width: 600px;
+.bxslider_wrap{overflow:hidden; height:370px; width: 600px;
     float: left;
     margin-right: 30px;}
 .bx-caption{}
@@ -821,3 +821,20 @@ a.hover_white:hover{color:#fff;}
 .vthumb a{
     font-size:1.2em; color:#000;line-height: 1;}
 .vthumb img{margin-bottom:10px;}
+.opinion_item{width:48%;}
+.opinion_text{ font-family: serif;
+    font-size: 1.4em;
+    font-style: italic;
+    line-height: 1.2;}
+
+.opinion_text a{color:#333;}
+.opinion_author{}
+.opinion_author_img{}
+.opinion_author_img img{}
+.opinion_author_name{}
+.opinion_author_name div{}
+.opinion_author_name span{}
+.quote_icon_wrap{}
+.quote_icon_wrap i{color: #9dcbf6;
+    font-size: 2.5em;}
+.fb_box{padding-top: 45px;}

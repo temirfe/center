@@ -12,6 +12,7 @@ class m170623_130416_create_opinion extends Migration
             'name' => $this->string('50')->notNull(),
             'title' => $this->string('100')->notNull(),
             'description' => $this->string('500')->notNull(),
+            'url' => $this->string('500')->notNull(),
             'image' =>$this->string('200')->notNull(),
             'expert_id' =>$this->integer('11'),
         ],$tableOptions);

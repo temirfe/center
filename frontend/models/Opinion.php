@@ -12,11 +12,12 @@ use Yii;
  * @property string $title
  * @property string $description
  * @property string $image
+ * @property string $url
  * @property integer $expert_id
  *
  * @property Expert $expert
  */
-class Opinion extends \yii\db\ActiveRecord
+class Opinion extends MyModel
 {
     /**
      * @inheritdoc
@@ -32,9 +33,10 @@ class Opinion extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'title', 'description', 'image'], 'required'],
+            [['description',], 'required'],
             [['expert_id'], 'integer'],
             [['name'], 'string', 'max' => 50],
+            [['url'], 'safe'],
             [['title'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 500],
             [['image'], 'string', 'max' => 200],
@@ -49,11 +51,13 @@ class Opinion extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
+            'name' => Yii::t('app', 'Full Name'),
+            'title' => Yii::t('app', 'His/her Title'),
+            'description' => Yii::t('app', 'Opinion'),
             'image' => Yii::t('app', 'Image'),
-            'expert_id' => Yii::t('app', 'Expert ID'),
+            'imageFile' => Yii::t('app', 'Image'),
+            'expert_id' => Yii::t('app', 'Expert'),
+            'url' => Yii::t('app', 'Url'),
         ];
     }
 
@@ -63,5 +67,22 @@ class Opinion extends \yii\db\ActiveRecord
     public function getExpert()
     {
         return $this->hasOne(Expert::className(), ['id' => 'expert_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+
+            $this->url=str_replace("http://","",$this->url);
+            $this->url=str_replace("https://","",$this->url);
+            $this->url="http://".$this->url;
+
+            return true;
+        } else {
+            return false;
+        }
     }
 }

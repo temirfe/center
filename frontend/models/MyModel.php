@@ -94,7 +94,7 @@ class MyModel extends \yii\db\ActiveRecord
                     Image::thumbnail($tosave.'/'.$imageName,600, 340)->save($tosave.'/m_'.$imageName);
                 }
                 $width=375;
-                if($model_name=='expert') $width=200;
+                if($model_name=='expert' || $model_name=='opinion') $width=200;
                 Image::thumbnail($tosave.'/'.$imageName,$width, 200)->save($tosave.'/s_'.$imageName);
 
                 Yii::$app->db->createCommand("UPDATE {$model_name} SET image='{$imageName}' WHERE id='{$this->id}'")->execute();

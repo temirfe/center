@@ -10,7 +10,7 @@ $this->title = Yii::t('app', 'Create Opinion');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Opinions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="opinion-create">
+<div class="opinion-create container">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

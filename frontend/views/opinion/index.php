@@ -10,7 +10,7 @@ use yii\grid\GridView;
 $this->title = Yii::t('app', 'Opinions');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="opinion-index">
+<div class="opinion-index container">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -29,7 +29,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description',
             'image',
-            // 'expert_id',
+            'expert_id',
+            [
+                'attribute' => 'expert_id',
+                'format' => 'raw',
+                'value' => function($model) {
+                    if($model->expert_id && !empty($model->expert->title)){
+                        $expert_title=$model->expert->title;
+                    }
+                    else{
+                        $expert_title="";
+                    }
+                    return $expert_title;
+                },
+                'contentOptions'=>['width'=>180]
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

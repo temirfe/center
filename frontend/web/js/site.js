@@ -11,7 +11,7 @@ $('.js_openclose').click(function(){
     }
 });
 
-$(window).scroll(function() {
+/*$(window).scroll(function() {
     var logo_wrap=$('.js_logo_wrap');
     if ($(window).scrollTop() > 200) {
         logo_wrap.removeClass('logo_wrap_index');
@@ -19,7 +19,7 @@ $(window).scroll(function() {
     else {
         logo_wrap.addClass('logo_wrap_index');
     }
-});
+});*/
 
 //Check to see if the window is top if not then display button
 $(window).scroll(function(){
@@ -99,12 +99,22 @@ $('.js_sections_toggle').click(function(e){
     else {sec.addClass('sections_visible js_sec_open');fa.addClass('fa-times').removeClass('fa-bars');}
 });
 
-/*$('.bxslider').bxSlider({
+$('.bxslider').bxSlider({
     mode: 'fade',
     captions: true,
     controls:false,
     auto:true,
     autoHover:true
-});*/
+});
 
 $('.bximg').mouseover(function(){$(this).attr('title','');});
+
+$('.js_select_expert_for_opinion').change(function(){
+    var val=$(this).val();
+    var opi=$('.js_opinionist');
+    if(val){opi.hide();}
+    else {
+        opi.show();
+    }
+
+});
