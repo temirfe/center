@@ -47,12 +47,13 @@ $opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
             <?php
             if($owns){
                 //echo "<h3 class='roboto mb15 navy font19 bbthinblue pb5'>".Yii::t('app','Center Articles')."</h3>";
-                foreach ($owns as $article){
+                foreach ($owns as $si=>$article){
+                    if($si==0){$bge6="bge6";}else{$bge6="";}
                     ?>
-                    <div class="oh mb20">
+                    <div class="oh pad10 rel js_sindex js_slide_index_<?=$si?> <?=$bge6?>" data-index="<?=$si?>" rel>
                         <div class="oh">
-                            <?=Html::a($article->title,['/article/view','id'=>$article->id],['class'=>'black own_title roboto font16']); ?>
-                            <div class="color9 mt5 roboto font13">
+                            <?=Html::a($article->title."<span class='false_link'></span>",['/article/view','id'=>$article->id],['class'=>'black own_title roboto font16 no_underline']); ?>
+                            <div class="color9 mt2 roboto font13">
                                 <?php if($authors=$article->getAuthors()){
                                     ?>
                                     <div class='afterdot pull-left'><?=$authors?></div>

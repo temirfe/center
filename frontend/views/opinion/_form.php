@@ -13,6 +13,7 @@ use \yii\helpers\ArrayHelper;
 
 $experts=Yii::$app->db->createCommand("SELECT * FROM expert ORDER BY title")->queryAll();
 $experts=ArrayHelper::map($experts,'id','title');
+if($model->expert_id){$hidden='hiddeniraak';}else{$hidden='';}
 ?>
 
 <div class="opinion-form">
@@ -24,7 +25,7 @@ $experts=ArrayHelper::map($experts,'id','title');
     <?php
         echo $form->field($model, "expert_id")->dropDownList($experts,['prompt'=>Yii::t('app','Select')."..", 'class'=>'form-control js_select_expert_for_opinion']);
     ?>
-    <div class="js_opinionist">
+    <div class="js_opinionist <?=$hidden;?>">
         <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
         <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
