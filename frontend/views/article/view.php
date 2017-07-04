@@ -48,7 +48,7 @@ Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app-
                     <a class="share-facebook share-icon js_fb_share" rel="nofollow" href="<?=Yii::$app->request->absoluteUrl?>" title="<?=Yii::t('app','Click to share on Facebook');?>">
                         <span></span>
                     </a>
-                    <a class="share-twitter share-icon popup twitter-share-button" rel="nofollow" href="https://twitter.com/intent/tweet?text=<?=urlencode($model->title).'&url='.Yii::$app->request->absoluteUrl?>" data-title="Twitter" title="<?=Yii::t('app','Click to share on Twitter');?>">
+                    <a class="share-twitter share-icon popup" rel="nofollow" href="https://twitter.com/intent/tweet?text=<?=urlencode($model->title).'&url='.Yii::$app->request->absoluteUrl?>" data-title="Twitter" title="<?=Yii::t('app','Click to share on Twitter');?>">
                         <span></span>
                     </a>
                     <a class="share-linkedin share-icon popup" rel="nofollow"

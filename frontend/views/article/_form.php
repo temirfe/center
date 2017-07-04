@@ -55,6 +55,7 @@ $experts=ArrayHelper::map($experts,'id','title');
         'preset' => 'custom',
         'clientOptions'=>[
             'allowedContent'=>true,
+            'forcePasteAsPlainText'=>true,
             //'extraAllowedContent'=>'span(*);div(*)[*]{*};h2(*)',
             /*'enterMode' => 2,
             'forceEnterMode'=>false,
@@ -83,6 +84,7 @@ $experts=ArrayHelper::map($experts,'id','title');
         <div class="col-md-4"><?= $form->field($model, 'expert3_id')->dropDownList($experts,['prompt'=>"Select.."]) ?></div>
     </div>
 
+    <?= $form->field($model, 'custom_author')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'footnotes')->textInput(['maxlength' => true]) ?>
 
     <?php

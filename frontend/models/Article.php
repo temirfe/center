@@ -16,6 +16,7 @@ use yii\helpers\Html;
  * @property integer $expert_id
  * @property string $date_create
  * @property string $footnotes
+ * @property string $custom_author
  * @property integer $own
  * @property integer $views
  * 
@@ -40,7 +41,7 @@ class Article extends MyModel
             [['title'], 'required'],
             [['text'], 'string'],
             [['category_id', 'expert_id', 'expert2_id', 'expert3_id','own','views'], 'integer'],
-            [['date_create'], 'safe'],
+            [['date_create','custom_author'], 'safe'],
             [['title'], 'string', 'max' => 500],
             [['image'], 'string', 'max' => 200],
             [['footnotes'], 'string', 'max' => 1000],
@@ -61,9 +62,10 @@ class Article extends MyModel
             'text' => Yii::t('app', 'Text'),
             'image' => Yii::t('app', 'Image'),
             'category_id' => Yii::t('app', 'Category'),
-            'expert_id' => Yii::t('app', 'Author'),
-            'expert2_id' => Yii::t('app', 'Author 2'),
-            'expert3_id' => Yii::t('app', 'Author 3'),
+            'custom_author' => Yii::t('app', 'or Author'),
+            'expert_id' => Yii::t('app', 'Expert'),
+            'expert2_id' => Yii::t('app', 'Expert 2'),
+            'expert3_id' => Yii::t('app', 'Expert 3'),
             'date_create' => Yii::t('app', 'Date Create'),
             'footnotes' => Yii::t('app', 'Footnotes'),
             'own' => Yii::t('app', 'Own article'),
@@ -140,6 +142,13 @@ class Article extends MyModel
         if($this->expert2_id){$and1=" ".Yii::t('app','and')." "; $author2=$this->getAuthorLink(2); }
         if($this->expert3_id){$and1=", "; $and2=" ".Yii::t('app','and')." "; $author3=$this->getAuthorLink(3); }
         $authors=$author.$and1.$author2.$and2.$author3;
+
+        if($this->custom_author){
+            if($authors)
+                $authors.=", ".$this->custom_author;
+            else
+                $authors=$this->custom_author;
+        }
 
         return $authors;
     }

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Video;
 use frontend\models\VideoSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -12,6 +13,29 @@ use yii\web\NotFoundHttpException;
  */
 class VideoController extends MyController
 {
+
+    public function actionList()
+    {
+        /*if(Yii::$app->language=='ru')
+        {
+            $content_lang='1';
+        }
+        else{
+            $content_lang='0';
+        }*/
+        $dataProvider = new ActiveDataProvider([
+            'query' => Video::find(),
+            'pagination' => [
+                'pageSize' => 20,
+            ],
+            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
+        ]);
+
+        return $this->render('list', [
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
     /**
      * Lists all Video models.
      * @return mixed
