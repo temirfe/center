@@ -137,3 +137,23 @@ $('.js_select_expert_for_opinion').change(function(){
         opi.show();
     }
 });
+
+$('.js_approve_comment').click(function(){
+    var id=$(this).attr('data-id');
+    var checked;
+    if($(this).is(':checked')){
+        checked=1;
+    }
+    else{
+        checked=0;
+    }
+    $.ajax({
+        type: 'POST',
+        data: {id:id, checked:checked, _csrf: yii.getCsrfToken()},
+        url: '/comment/approve',
+        //beforeSend: function () {},
+        success:function(data){
+            console.log(id+" "+checked);
+        }
+    });
+});

@@ -66,6 +66,7 @@ class CommentController extends Controller
         $model = new Comment();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('commentSuccess', 'Ваш комментарий появится на сайте после модерации, спасибо.');
             return $this->redirect([$model->model_name.'/view', 'id' => $model->model_id]);
         } else {
             return $this->render('create', [
@@ -120,5 +121,16 @@ class CommentController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    public function actionApprove(){
+        $req=Yii::$app->request;
+        $id=$req->post('id');
+        $action=$req->post('checked');
+
+        $product=Comment::findOne(['id'=>$id]);
+        $product->public=$action;
+        $product->save();
+
     }
 }

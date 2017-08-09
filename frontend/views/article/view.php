@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use frontend\models\Comment;
 use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Article */
 
@@ -16,7 +15,6 @@ Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => 'http://
 Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $model->title]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
 ?>
-
 <div class="article-view">
     <?php
     if($model->image){
@@ -78,6 +76,11 @@ Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app-
 
                 <div class="comment-wrap mt20 oh">
                     <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app', 'Comments');?></h3>
+                    <?php
+                    if(Yii::$app->session->hasFlash('commentSuccess')){
+                        echo "<div class='alert alert-success'>".Yii::$app->session->getFlash('commentSuccess').'</div>';
+                    }
+                    ?>
                     <div class="news-comments">
                         <?php foreach($model->comments as $comment){
                             if($comment['public'])

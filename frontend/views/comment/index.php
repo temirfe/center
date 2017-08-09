@@ -34,13 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' => 'public',
-                'format' => 'raw',
-                'value' => function($model) {
-                    if($model->public) $public="да"; else $public="нет";
-                    return $public;
+                'class' => 'yii\grid\CheckboxColumn',
+                'checkboxOptions' => function($model) {
+                    return [
+                        'checked' => $model->public,
+                        'class'=>'js_approve_comment',
+                        'data-id'=>$model->id,
+                    ];
                 },
-                'contentOptions'=>['width'=>80]
+                'header' => 'Публичный',
+                'contentOptions' => ['class' => 'text-center'],
             ],
 
             ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['width'=>80]],
