@@ -59,4 +59,10 @@ class Comment extends \yii\db\ActiveRecord
             'public' => Yii::t('app', 'Public'),
         ];
     }
+
+    public function getArticle()
+    {
+        return $this->hasOne(Article::className(), ['id' => 'model_id']);
+    }
+    
 }

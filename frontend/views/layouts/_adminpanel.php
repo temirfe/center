@@ -20,6 +20,7 @@ $category_active='';
 $attendant_active='';
 $video_active='';
 $opinion_active='';
+$comment_active='';
 $controller=Yii::$app->controller->id;
 if($controller=='page') $pages_active="active";
 else if($controller=='user') $users_active="active";
@@ -31,6 +32,7 @@ else if($controller=='category') $category_active="active";
 else if($controller=='attendant') $attendant_active="active";
 else if($controller=='video') $video_active="active";
 else if($controller=='opinion') $opinion_active="active";
+else if($controller=='comment') $comment_active="active";
 ?>
 <div class="admpanel_top">
       <div class="admpanel-title">
@@ -49,6 +51,7 @@ else if($controller=='opinion') $opinion_active="active";
                 <div class="<?=$users_active?>"><span class='panel-icon fa fa-user'></span><?=Html::a(Yii::t('app','Users'), ['/user/index']); ?></div>
                 <div class="<?=$video_active?>"><span class='panel-icon fa fa-video-camera'></span><?=Html::a(Yii::t('app','Videos'), ['/video/index']); ?></div>
                 <div class="<?=$opinion_active?>"><span class='panel-icon fa fa-quote-left'></span><?=Html::a(Yii::t('app','Opinions'), ['/opinion/index']); ?></div>
+                <div class="<?=$comment_active?>"><span class='panel-icon fa fa-comment'></span><?=Html::a(Yii::t('app','Comments'), ['/comment/index']); ?></div>
              </div>
              <div class="clear"></div>
                 <?php

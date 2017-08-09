@@ -80,8 +80,7 @@ Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app-
                     <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app', 'Comments');?></h3>
                     <div class="news-comments">
                         <?php foreach($model->comments as $comment){
-                            //if($comment['public'])
-                            if(true)
+                            if($comment['public'])
                             {
                                 ?>
                                 <div class="comment-row">

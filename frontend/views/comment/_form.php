@@ -18,13 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'content')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'model_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'model_id')->textInput() ?>
-
-    <?= $form->field($model, 'public')->textInput() ?>
+    <?=$form->field($model, 'public')->dropDownList(["0"=>"нет","1"=>"да"])?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

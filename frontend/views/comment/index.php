@@ -22,18 +22,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'date',
+            ['attribute' => 'id', 'contentOptions'=>['width'=>70]],
             'name',
             'content',
             //'user_id',
-            'model_name',
-            'model_id',
-            // 'public',
+            [
+                'header' => 'Статья',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a($model->article->title,'/'.$model->model_name.'/'.$model->model_id);
+                },
+            ],
+            [
+                'attribute' => 'public',
+                'format' => 'raw',
+                'value' => function($model) {
+                    if($model->public) $public="да"; else $public="нет";
+                    return $public;
+                },
+                'contentOptions'=>['width'=>80]
+            ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'contentOptions'=>['width'=>80]],
         ],
     ]); ?>
 </div>

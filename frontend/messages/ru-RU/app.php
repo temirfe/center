@@ -71,6 +71,7 @@ return [
     'Create Expert' => 'Создать эксперта',
 
     'Article' => 'Статья',
+    'Top articles' => 'Самые читаемые',
     'Create Article' => 'Создать тему',
     'Update article: ' => 'Редактировать статью: ',
 
@@ -160,5 +161,7 @@ return [
     'Views' => 'Просмотры',
     'His/her Title' => 'Титул',
     'Url' => 'Ссылка',
+    'Content' => 'Коммент',
+    'Public' => 'Публичный',
     '' => '',
 ];

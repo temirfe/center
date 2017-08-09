@@ -22,10 +22,13 @@ $dep->sql = 'SELECT MAX(last_update) FROM depend WHERE table_name="article"';
 
 $owns = $dao->cache(function ($dao) {
     return Article::find()->where("own=1")->orderBy('id DESC')->limit(5)->all();
-}, 3600, $dep);
+}, 30600, $dep);
 $articles = $dao->cache(function ($dao) {
     return Article::find()->select('id,title')->where("own=0")->orderBy('id DESC')->limit(5)->all();
-}, 3600, $dep);
+}, 30600, $dep);
+$top_articles = $dao->cache(function ($dao) {
+    return Article::find()->select('id,title,views')->orderBy('views DESC')->limit(5)->all();
+}, 30600, $dep);
 
 $events=Event::find()->where('date_end>NOW()')->orderBy('id DESC')->limit(2)->all();
 $videos=Video::find()->orderBy('id DESC')->limit(4)->all();
@@ -139,19 +142,19 @@ $opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
             ?>
         </div>
         <?php
-        if($events){
-            ?>
+        /*if($events){
+            */?><!--
             <div class="col-md-4 oh">
 
-                <h3 class='roboto mb15 navy font19 bbthinblue mb20 pb5'><?=Yii::t('app','Events')?></h3>
+                <h3 class='roboto mb15 navy font19 bbthinblue mb20 pb5'><?/*=Yii::t('app','Events')*/?></h3>
                 <?php
-                foreach($events as $event){
+/*                foreach($events as $event){
                     echo "<div class='mb20 oh'>".$this->render('/event/_list',['model' => $event])."</div>";
                 }
-                ?>
+                */?>
             </div>
-        <?php
-        }
+        --><?php
+/*        }*/
         ?>
 
 
@@ -164,6 +167,24 @@ $opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
                href="https://twitter.com/CPLS_Center" data-size="large" data-show-count="false">
                 Follow @CPLS_Center</a>
         </div>
+
+
+        <?php
+        if($top_articles){
+            ?>
+            <div class="col-md-4 oh">
+
+                <h3 class='roboto mb15 navy font19 bbthinblue mb20 pb5'><?=Yii::t('app','Top articles')?></h3>
+                <?php
+                foreach($top_articles as $art){
+                    $title=$art->title." <span class='font11 ml5' title='Просмотры'><i class='fa fa-eye mr4'></i>".$art->views."</span>";
+                    echo Html::a("<span class='mr4 block pull-left'>—</span><span class='oh block'>".$title."</span>",['/article/view','id'=>$art->id],['class'=>'mb5 iblock color3 roboto no_underline w100']);
+                }
+                ?>
+            </div>
+            <?php
+        }
+        ?>
 
         <div class="clear"></div>
         <br />

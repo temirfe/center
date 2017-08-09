@@ -42,6 +42,7 @@ class CommentSearch extends Comment
     public function search($params)
     {
         $query = Comment::find();
+        $query->orderBy('id DESC');
 
         // add conditions that should always apply here
 
