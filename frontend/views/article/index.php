@@ -26,7 +26,14 @@ $ctg=ArrayHelper::map($rows,'id','title');
         'filterModel' => $searchModel,
         'columns' => [
             ['attribute' => 'id', 'contentOptions'=>['width'=>80]],
-            'title',
+            [
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::a($model->title,'/article/'.$model->id);
+                },
+                'contentOptions'=>['width'=>180]
+            ],
             [
                 'attribute' => 'image',
                 'format' => 'raw',

@@ -42,6 +42,7 @@ class ArticleSearch extends Article
     public function search($params)
     {
         $query = Article::find();
+        $query->orderBy('id DESC');
 
         // add conditions that should always apply here
 

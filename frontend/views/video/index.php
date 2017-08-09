@@ -23,13 +23,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            [
+                'attribute' => 'thumb',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Html::img($model->thumb,['class'=>'w100']);
+                },
+                'contentOptions'=>['width'=>180]
+            ],
             'title',
-            'description',
             'link',
-            'thumb',
             // 'date_create',
 
             ['class' => 'yii\grid\ActionColumn'],

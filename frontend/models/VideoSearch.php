@@ -42,6 +42,7 @@ class VideoSearch extends Video
     public function search($params)
     {
         $query = Video::find();
+        $query->orderBy('id DESC');
 
         // add conditions that should always apply here
 

@@ -161,10 +161,17 @@ class Article extends MyModel
     }
 
     public function getLangTitle(){
+        $msg='';
         if(Yii::$app->language=='ru-RU'){
-            $msg=$this->category->title;
+            if(isset($this->category->title)){
+                $msg=$this->category->title;
+            }
         }
-        else $msg=$this->category->title_en;
+        else {
+            if(isset($this->category->title_en)){
+                $msg=$this->category->title_en;
+            }
+        }
         return $msg;
     }
 
@@ -187,5 +194,14 @@ class Article extends MyModel
     public function getComments()
     {
         return $this->hasMany(Comment::className(), ['model_id' => 'id']);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete() {
+        $dao=Yii::$app->db;
+        $dao->createCommand()->update('depend', ['last_update' =>time()], 'table_name="article"')->execute();
+        return parent::afterDelete();
     }
 }
