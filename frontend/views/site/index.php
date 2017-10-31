@@ -62,7 +62,7 @@ $opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
                                     <div class='afterdot pull-left'><?=$authors?></div>
                                     <?php
                                 } ?>
-                                <time class="date"><?=Yii::$app->formatter->asDate($article->date_create)?></time>
+                                <time class="date"><?php $time=strtotime($article->date_create); echo date("d.m.Y",$time);?></time>
                             </div>
                         </div>
                     </div>
