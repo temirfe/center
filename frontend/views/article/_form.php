@@ -60,7 +60,7 @@ $experts=ArrayHelper::map($experts,'id','title');
             /*'enterMode' => 2,
             'forceEnterMode'=>false,
             'shiftEnterMode'=>1,*/
-            'toolbar'=>[ //toolbar names can be found here: http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
+            /*'toolbar'=>[ //toolbar names can be found here: http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
                 ['name'=>'document','items'=>['Source']],
                 ['name'=>'basicstyles','items'=>['Bold','Italic','Underline','Strike','-','TextColor','BGColor','-','RemoveFormat']],
                 ['name'=>'Clipboard','items'=>['Paste','PasteText','PasteFromWord']],
@@ -69,7 +69,7 @@ $experts=ArrayHelper::map($experts,'id','title');
                 ['name'=>'links','items'=>['Link','Unlink']],
                 ['name'=>'styles','items'=>['Styles','Format','Font','FontSize']],
                 ['name'=>'tools','items'=>['Maximize']],
-            ]
+            ]*/
         ]
     ]) ?>
 
