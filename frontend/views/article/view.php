@@ -69,6 +69,7 @@ Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app-
                     ?>
                     
                     <time class="date"><?=Yii::$app->formatter->asDate($model->date_create)?></time>
+                    <time class="date hidden"><?=$model->date_create?></time>
                 </div>
                 <?=$model->text;?>
                 <?=$model->footnotes;?>
