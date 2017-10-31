@@ -91,6 +91,9 @@ return [
         'formatter' =>
             [
                 'class' => 'yii\i18n\Formatter',
+                'dateFormat' => 'php:d.m.Y',
+                'datetimeFormat' => 'php:d.m.Y H:i a',
+                'timeFormat' => 'php:H:i A',
                 'timeZone' => 'Asia/Bishkek',
             ],
 
