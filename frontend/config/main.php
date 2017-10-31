@@ -88,6 +88,12 @@ return [
             ],
         ],
 
+        'formatter' =>
+            [
+                'class' => 'yii\i18n\Formatter',
+                'timeZone' => 'Asia/Bishkek',
+            ],
+
     ],
     'params' => $params,
 ];
