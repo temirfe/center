@@ -10,9 +10,11 @@ use yii\widgets\ActiveForm;
 $this->title = $model->title.' | '.Yii::t('app','CPLR');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Articles'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$pure_text=strip_tags($model->text);
+$result = mb_substr($pure_text, 0, 125)."..";
 Yii::$app->view->registerMetaTag(['property' => 'og:title','content' => $model->title]);
 Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => 'http://center.kg/images/article/'.$model->id.'/'.$model->image]);
-Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $model->title]);
+Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $result]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
 ?>
 <div class="article-view">

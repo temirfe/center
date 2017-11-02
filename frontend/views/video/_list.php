@@ -15,7 +15,7 @@ $imglink=Html::a($img,['/video/view','id'=>$model->id],['class'=>'img-responsive
 </div>
 
 <div class="oh">
-    <h3 class="mt5"><?=Html::a($model->title,['/article/view','id'=>$model->id],['class'=>'black']); ?></h3>
+    <h3 class="mt5"><?=Html::a($model->title,['/video/view','id'=>$model->id],['class'=>'black']); ?></h3>
     <div class="color9 mt10 roboto font13">
 
         <time class="date"><?=Yii::$app->formatter->asDate($model->date_create)?></time>
