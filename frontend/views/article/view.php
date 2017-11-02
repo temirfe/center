@@ -16,6 +16,8 @@ Yii::$app->view->registerMetaTag(['property' => 'og:title','content' => $model->
 Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => 'http://center.kg/images/article/'.$model->id.'/'.$model->image]);
 Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $result]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
+Yii::$app->view->registerMetaTag(['property' => 'og:type','content' => 'article']);
+Yii::$app->view->registerMetaTag(['property' => 'fb:app_id','content' => '382095758792121']);
 ?>
 <div class="article-view">
     <?php
