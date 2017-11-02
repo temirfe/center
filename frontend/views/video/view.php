@@ -22,6 +22,7 @@ Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => $youtube
 Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $desc]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
 Yii::$app->view->registerMetaTag(['property' => 'fb:app_id','content' => '382095758792121']);
+Yii::$app->view->registerMetaTag(['property' => 'og:type','content' => 'article']);
 ?>
 <div class="video-view container">
 
