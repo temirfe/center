@@ -12,7 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Articles'), 'url' =>
 $this->params['breadcrumbs'][] = $this->title;
 $pure_text=strip_tags($model->text);
 $result = mb_substr($pure_text, 0, 125)."..";
-Yii::$app->view->registerMetaTag(['property' => 'og:title','content' => $model->title]);
+$title_fb= mb_convert_encoding($model->title, 'UTF-8', 'UTF-16');
+Yii::$app->view->registerMetaTag(['property' => 'og:title','content' => $title_fb]);
 Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => 'http://center.kg/images/article/'.$model->id.'/'.$model->image]);
 Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $result]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
