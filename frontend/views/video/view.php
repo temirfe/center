@@ -15,8 +15,10 @@ $height = '450px';
 $src="https://www.youtube.com/embed/{$model->video_id}";
 if(!$desc=$model->description){$desc=$model->title;}
 
+$youtube_image="https://img.youtube.com/vi/{$model->video_id}/hqdefault.jpg";
+
 Yii::$app->view->registerMetaTag(['property' => 'og:title','content' => $model->title]);
-Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => $model->thumb]);
+Yii::$app->view->registerMetaTag(['property' => 'og:image','content' => $youtube_image]);
 Yii::$app->view->registerMetaTag(['property' => 'og:description','content' => $desc]);
 Yii::$app->view->registerMetaTag(['property' => 'og:url','content' => Yii::$app->request->absoluteUrl]);
 ?>
