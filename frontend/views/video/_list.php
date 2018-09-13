@@ -18,6 +18,6 @@ $imglink=Html::a($img,['/video/view','id'=>$model->id],['class'=>'img-responsive
     <h3 class="mt5"><?=Html::a($model->title,['/video/view','id'=>$model->id],['class'=>'black']); ?></h3>
     <div class="color9 mt10 roboto font13">
 
-        <time class="date"><?=Yii::$app->formatter->asDate($model->date_create)?></time>
+        <time class="date"><?php $time=strtotime($model->date_create); echo date("d.m.Y",$time);?></time>
     </div>
 </div>

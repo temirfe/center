@@ -47,7 +47,7 @@ Yii::$app->view->registerMetaTag(['property' => 'og:type','content' => 'article'
     <div class="mt10">
         <?=$model->description;?>
         <div class="mt10">
-            <time class="date"><?=Yii::$app->formatter->asDate($model->date_create)?></time>
+            <time class="date"><?php $time=strtotime($model->date_create); echo date("d.m.Y",$time);?></time>
         </div>
     </div>
 </div>

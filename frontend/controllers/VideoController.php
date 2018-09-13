@@ -58,8 +58,10 @@ class VideoController extends MyController
      */
     public function actionView($id)
     {
+        $model=$this->findModel($id);
+        $model->updateCounters(['views'=>1]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model
         ]);
     }
 

@@ -154,10 +154,17 @@ class Article extends MyModel
     }
     
     public function getAuthorLink($number){
+        $title=false;
         if($number==2){$title=$this->expert2->title; $id=$this->expert2_id;}
         else if($number==3){$title=$this->expert3->title; $id=$this->expert3_id;}
-        else{$title=$this->expert->title; $id=$this->expert_id;}
-        return Html::a($title,['/expert/view','id'=>$id],['class'=>'darklink']);
+        else{
+            if(isset($this->expert->title)) {
+                $title=$this->expert->title; $id=$this->expert_id;
+            }
+        }
+        if($title){$ret=Html::a($title,['/expert/view','id'=>$id],['class'=>'darklink']);}
+        else $ret='';
+        return $ret;
     }
 
     public function getLangTitle(){

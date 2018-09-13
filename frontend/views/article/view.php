@@ -154,7 +154,7 @@ Yii::$app->view->registerMetaTag(['property' => 'fb:app_id','content' => '382095
                         $files=scandir($dir);
                         foreach($files as $file){
                             if($file!='.' && $file!='..'){
-                                echo Html::a("<span class='fa fa-file-text mr5'></span>".$file,'/'.$dir."/".$file, ['class'=>'darklink']);
+                                echo Html::a("<span class='fa fa-file-text mr5'></span>".$file,'/'.$dir."/".$file, ['class'=>'darklink iblock']);
                             }
                         }
                         ?>

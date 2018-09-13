@@ -76,7 +76,7 @@ $opinions=Opinion::find()->orderBy('id DESC')->limit(4)->all();
     <div class="clear"></div>
     <br />
     <div class="body-content mt15">
-        <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app','Media')?></h3>
+        <h3 class="roboto mb15 navy font19 bbthinblue pb5"><?=Yii::t('app','Video')?></h3>
         <div class="video_thumbs">
             <?php
             foreach($videos as $video){

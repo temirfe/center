@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,
-        'itemOptions' => ['class' => 'item col-md-4 mb15'],
+        'itemOptions' => ['class' => 'item col-md-4 mb15 class1'],
         'emptyText' => Yii::t('app', 'No results found'),
         'summary'=>'',
         'options'=>['class'=>'item-view row'],
@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 $acronym = "";
 
                 foreach ($words as $w) {
-                    $acronym .= mb_substr($w, 0, 1);
+                    $letter=mb_substr($w, 0, 1);
+                    if($letter=="«"){$letter=mb_substr($w, 1, 1);}
+                    $acronym .= $letter;
                 }
                 $img="<div class='round initials_thumb'>".$acronym."</div>";
             }
-            $url=Html::a($img,['/expert/view','id'=>$model->id]);
+            $url=Html::a($img,['/expert/view','id'=>$model->id],['class'=>'class2']);
             $author=Html::a($model->title,['/expert/view','id'=>$model->id],['class'=>'darklink']);
             $html.="<div class='pull-left mr15'>".$url."</div>";
             $html.="<h2 class='name'>".$author.'</h2>';

@@ -28,6 +28,6 @@ $imglink=Html::a($img,['/article/view','id'=>$model->id],['class'=>'img-responsi
         }
         ?>
 
-        <time class="date"><?=Yii::$app->formatter->asDate($model->date_create)?></time>
+        <time class="date"><?php $time=strtotime($model->date_create); echo date("d.m.Y",$time);?></time>
     </div>
 </div>

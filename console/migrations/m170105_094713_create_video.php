@@ -14,6 +14,7 @@ class m170105_094713_create_video extends Migration
             'link' => $this->string('100')->notNull(),
             'thumb' => $this->string('100')->notNull(),
             'video_id' => $this->string('30')->notNull(),
+            'views' => $this->integer('11')->notNull()->defaultValue(0),
             'date_create'=>$this->timestamp(),
         ],$tableOptions);
     }

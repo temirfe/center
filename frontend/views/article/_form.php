@@ -6,6 +6,17 @@ use yii\helpers\Url;
 use kartik\file\FileInput;
 use dosamigos\ckeditor\CKEditor;
 use \yii\helpers\ArrayHelper;
+use vova07\imperavi\Widget as ImperaviWidget;
+use frontend\assets\SpecialcharsAsset;
+
+/*$kcfOptions = array_merge(KCFinder::$kcfDefaultOptions, [
+    'disabled' => false,
+    'uploadUrl' => '/upload3',
+    'uploadDir' => Yii::getAlias('@webroot').'/upload3',
+]);
+
+// Set kcfinder session options
+Yii::$app->session->set('KCFINDER', $kcfOptions);*/
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Article */
@@ -50,28 +61,29 @@ $experts=ArrayHelper::map($experts,'id','title');
 
     ?>
 
-    <?= $form->field($model, 'text')->widget(CKEditor::className(), [
-        'options' => ['rows' => 6],
-        'preset' => 'custom',
-        'clientOptions'=>[
-            'allowedContent'=>true,
-            'forcePasteAsPlainText'=>true,
-            //'extraAllowedContent'=>'span(*);div(*)[*]{*};h2(*)',
-            /*'enterMode' => 2,
-            'forceEnterMode'=>false,
-            'shiftEnterMode'=>1,*/
-            /*'toolbar'=>[ //toolbar names can be found here: http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
-                ['name'=>'document','items'=>['Source']],
-                ['name'=>'basicstyles','items'=>['Bold','Italic','Underline','Strike','-','TextColor','BGColor','-','RemoveFormat']],
-                ['name'=>'Clipboard','items'=>['Paste','PasteText','PasteFromWord']],
-                ['name'=>'insert','items'=>['Image','Table','HorizontalRule']],
-                ['name'=>'paragraph','items'=>['NumberedList','BulletedList','-','Outdent','Indent']],
-                ['name'=>'links','items'=>['Link','Unlink']],
-                ['name'=>'styles','items'=>['Styles','Format','Font','FontSize']],
-                ['name'=>'tools','items'=>['Maximize']],
-            ]*/
-        ]
-    ]) ?>
+    <?php
+    echo $form->field($model, 'text')->widget(ImperaviWidget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'maxHeight' => 400,
+            'imageUpload' => Url::to(['/site/image-upload']),
+            'imageManagerJson' => Url::to(['/site/images-get']),
+            'plugins' => [
+                'clips',
+                'fullscreen',
+                'imagemanager',
+                'table',
+                //'specialchars'
+            ],
+        ],
+        'plugins' => [
+            'specialchars'=> 'frontend\assets\SpecialcharsAsset'
+        ],
+    ]);
+    ?>
+
+
 
     <div class="row">
         <div class="col-md-4"><?= $form->field($model, 'category_id')->dropDownList($categories,['prompt'=>Yii::t('app','Select').".."]) ?></div>
@@ -127,3 +139,6 @@ $experts=ArrayHelper::map($experts,'id','title');
     <?php ActiveForm::end(); ?>
 
 </div>
+
+
+

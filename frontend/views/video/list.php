@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="video-index large-container">
 
-    <h1><?= Yii::t('app', 'Media') ?></h1>
+    <h1><?= Yii::t('app', 'Video') ?></h1>
 
     <?= ListView::widget([
         'dataProvider' => $dataProvider,

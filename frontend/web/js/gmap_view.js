@@ -3,8 +3,8 @@ $(window).load(function(){
 });
     function initialize()
     {
-        var latit="42.8692601";
-        var longit="74.5907187";
+        var latit="42.872912";
+        var longit="74.598808";
         var mylocation=new google.maps.LatLng(latit, longit);
         var myOptions =
         {
@@ -18,7 +18,7 @@ $(window).load(function(){
         var marker = new google.maps.Marker({
             position: mylocation,
             map: map,
-            title:"Tohama Travel & Tourism"
+            title:"ЦППИ"
         });
     }//initialize();
 

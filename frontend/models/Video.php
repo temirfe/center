@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "video".
  *
  * @property integer $id
+ * @property integer $views
  * @property string $title
  * @property string $description
  * @property string $link
@@ -32,7 +33,7 @@ class Video extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'link',], 'required'],
-            [['date_create','video_id'], 'safe'],
+            [['date_create','video_id','views'], 'safe'],
             [['title'], 'string', 'max' => 500],
             [['description'], 'string', 'max' => 1000],
             [['link', 'thumb'], 'string', 'max' => 100],
@@ -51,6 +52,7 @@ class Video extends \yii\db\ActiveRecord
             'link' => Yii::t('app', 'Link'),
             'thumb' => Yii::t('app', 'Thumb'),
             'date_create' => Yii::t('app', 'Date Create'),
+            'views' => Yii::t('app', 'Views'),
         ];
     }
 

@@ -98,7 +98,7 @@ if($controller=='site' && $action=="partners") $partner_active=true; else $partn
         ['label' => Yii::t('app','Home'), 'url' => ['/site/index']],
         ['label' => Yii::t('app','About us'), 'url' => ['/about'], 'active'=>$about_active],
         ['label' => Yii::t('app','Articles'), 'url' => ['/article/list'], 'active'=>$article_active],
-        ['label' => Yii::t('app','Media'), 'url' => ['/video/list'], 'active'=>$video_active],
+        ['label' => Yii::t('app','Video'), 'url' => ['/video/list'], 'active'=>$video_active],
         ['label' => Yii::t('app','Events'), 'url' => ['/event/list'],'active'=>$event_active],
         ['label' => Yii::t('app','Experts'), 'url' => ['/expert/list'], 'active'=>$expert_active],
         ['label' => Yii::t('app','Our partners'), 'url' => ['/partners'],'active'=>$partner_active],

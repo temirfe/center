@@ -64,17 +64,29 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'image-upload' => [
+                'class' => 'vova07\imperavi\actions\UploadFileAction',
+                'url' => '/upload/', // Directory URL address, where files are stored.
+                'path' => Yii::getAlias('@webroot').'/upload', // Or absolute path to directory where files are stored.
+                'uploadOnlyImage' => true, // For any kind of files uploading.
+            ],
+            'images-get' => [
+                'class' => 'vova07\imperavi\actions\GetImagesAction',
+                'url' => '/upload/', // Directory URL address, where files are stored.
+                'path' =>  Yii::getAlias('@webroot').'/upload', // Or absolute path to directory where files are stored.
+                'options' => ['only' => ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.ico']], // These options are by default.
+            ],
         ];
     }
 
     public function actionEditorUpload(){
         $file=UploadedFile::getInstanceByName('upload');
         $imageName=time().'.'.$file->extension;
-        $dir=Yii::getAlias('@webroot')."/images/editor/";
+        $dir=Yii::getAlias('@webroot')."/upload";
         $file->saveAs($dir.'/' . $imageName);
     }
     public function actionEditorBrowse(){
-        return $dir=Yii::getAlias('@webroot')."/images/editor/";
+        return $dir=Yii::getAlias('@webroot')."/upload";
     }
     /**
      * Displays homepage.
