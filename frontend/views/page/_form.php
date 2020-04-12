@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
 use dosamigos\ckeditor\CKEditor;
 use iutbay\yii2kcfinder\KCFinder;
+use vova07\imperavi\Widget as ImperaviWidget;
+use frontend\assets\SpecialcharsAsset;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Page */
@@ -20,15 +22,15 @@ use iutbay\yii2kcfinder\KCFinder;
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'text')->widget(CKEditor::className(), [
+   <?/*= $form->field($model, 'text')->widget(CKEditor::className(), [
         'options' => ['rows' => 6],
         'preset' => 'custom',
         'clientOptions'=>[
             'allowedContent'=>true,
             //'extraAllowedContent'=>'span(*);div(*)[*]{*};h2(*)',
-            /*'enterMode' => 2,
-            'forceEnterMode'=>false,
-            'shiftEnterMode'=>1,*/
+            //'enterMode' => 2,
+            //'forceEnterMode'=>false,
+            //'shiftEnterMode'=>1,
             'toolbar'=>[ //toolbar names can be found here: http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Toolbar
                 ['name'=>'document','items'=>['Source']],
                 ['name'=>'basicstyles','items'=>['Bold','Italic','Underline','Strike','-','TextColor','BGColor','-','RemoveFormat']],
@@ -40,7 +42,31 @@ use iutbay\yii2kcfinder\KCFinder;
                 ['name'=>'tools','items'=>['Maximize']],
             ]
         ]
-    ]) ?>
+    ]) */?>
+
+
+    <?php
+    echo $form->field($model, 'text')->widget(ImperaviWidget::className(), [
+        'settings' => [
+            'lang' => 'ru',
+            'minHeight' => 200,
+            'maxHeight' => 400,
+            'imageUpload' => Url::to(['/site/image-upload']),
+            'imageManagerJson' => Url::to(['/site/images-get']),
+            'pastePlainText'=>true,
+            'plugins' => [
+                'clips',
+                'fullscreen',
+                'imagemanager',
+                'table',
+                //'specialchars'
+            ],
+        ],
+        'plugins' => [
+            'specialchars'=> 'frontend\assets\SpecialcharsAsset'
+        ],
+    ]);
+    ?>
 
     <?php //echo $form->field($model, 'image')->textInput(['maxlength' => true]); ?>
 

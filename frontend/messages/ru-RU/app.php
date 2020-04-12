@@ -68,7 +68,7 @@ return [
 
     'Create Attendant' => 'Добавить участника',
     'Create Event' => 'Создать мероприятие',
-    'Create Expert' => 'Создать эксперта',
+    'Create Expert' => 'Добавить эксперта',
 
     'Article' => 'Статья',
     'Top articles' => 'Самые читаемые',

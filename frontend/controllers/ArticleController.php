@@ -137,7 +137,7 @@ class ArticleController extends MyController
 
     public function actionRun(){
 
-        $dir=Yii::getAlias('@webroot')."/images/article/";
+        /*$dir=Yii::getAlias('@webroot')."/images/article/";
 
         $rows=Yii::$app->db->createCommand("SELECT id, image FROM article")->queryAll();
         foreach($rows as $row){
@@ -145,6 +145,9 @@ class ArticleController extends MyController
             if(is_dir($tosave)){
                 Image::thumbnail($tosave.'/'.$row['image'],600, 340)->save($tosave.'/m_'.$row['image']);
             }
-        }
+        }*/
+        $model=$this->findModel(231);
+        $model->updateCounters(['views'=>1]);
+        echo 'good';
     }
 }

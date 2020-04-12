@@ -69,6 +69,7 @@ $experts=ArrayHelper::map($experts,'id','title');
             'maxHeight' => 400,
             'imageUpload' => Url::to(['/site/image-upload']),
             'imageManagerJson' => Url::to(['/site/images-get']),
+            'pastePlainText'=>true,
             'plugins' => [
                 'clips',
                 'fullscreen',

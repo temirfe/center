@@ -74,16 +74,23 @@ $articles=Yii::$app->db->createCommand("SELECT id, title FROM article WHERE expe
                            echo Html::a($article['title'],['/article/view','id'=>$article['id']],['class'=>'font13 underline darklink'])."<br />";
                        }
                    }
+
+                   if($model->expertise_areas){
+                       echo Html::tag('div',Yii::t('app','Additional Expertise Areas').":",['class'=>'text-uppercase bold mt15 mb2']);
+                       echo Html::tag('div',nl2br($model->expertise_areas),['class'=>'font13 color3 mb10']);
+                   }
+                   if($model->past_positions && $model->education){
+                       echo Html::tag('div',Yii::t('app','Experience').":",['class'=>'text-uppercase bold mt15 mb2']);
+                   }
+                   if($model->past_positions){
+                       echo Html::tag('div',Yii::t('app','Past Positions').":",['class'=>'text-uppercase bold mb2']);
+                       echo Html::tag('div',nl2br($model->past_positions),['class'=>'font13 color3 mb10']);
+                   }
+                   if($model->education){
+                       echo Html::tag('div',Yii::t('app','Education').":",['class'=>'text-uppercase bold mb2']);
+                       echo Html::tag('div',nl2br($model->education),['class'=>'font13 color3']);
+                   }
                ?>
-               <div class="text-uppercase bold mt15 mb2"><?=Yii::t('app','Additional Expertise Areas').":"?></div>
-               <div class="font13 color3"><?=nl2br($model->expertise_areas)?></div>
-               <div class="text-uppercase bold mt15 mb2"><?=Yii::t('app','Experience').":"?></div>
-               <div class="text-uppercase bold mb2"><?=Yii::t('app','Current Positions').":"?></div>
-               <div class="font13 color3"><?=nl2br($model->current_positions)?></div>
-               <div class="text-uppercase bold mt15 mb2"><?=Yii::t('app','Past Positions').":"?></div>
-               <div class="font13 color3"><?=nl2br($model->past_positions)?></div>
-               <div class="text-uppercase bold mt15 mb2"><?=Yii::t('app','Education').":"?></div>
-               <div class="font13 color3"><?=nl2br($model->education)?></div>
            </div>
         </aside>
     </section>

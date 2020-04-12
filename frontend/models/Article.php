@@ -41,7 +41,7 @@ class Article extends MyModel
             [['title'], 'required'],
             [['text'], 'string'],
             [['category_id', 'expert_id', 'expert2_id', 'expert3_id','own','views'], 'integer'],
-            [['date_create','custom_author'], 'safe'],
+            [['date_create','custom_author', 'image'], 'safe'],
             [['title'], 'string', 'max' => 500],
             [['image'], 'string', 'max' => 200],
             [['footnotes'], 'string', 'max' => 1000],
