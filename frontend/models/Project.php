@@ -56,4 +56,12 @@ class Project extends MyModel
         parent::afterSave($insert, $changedAttributes);
         Yii::$app->cache->delete('project');
     }
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        Yii::$app->cache->delete('project');
+        return parent::afterDelete();
+    }
 }
