@@ -10,8 +10,8 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'language'=>'ru-RU',
-    'name'=>Yii::t('app','CPLR | Center for political and legal research'),
+    'language' => 'ru-RU',
+    'name' => Yii::t('app', 'CPLR | Center for political and legal research'),
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -44,9 +44,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'about'=>'site/about',
-                'partners'=>'site/partners',
-                'contact'=>'site/contact',
+                'about' => 'site/about',
+                'partners' => 'site/partners',
+                'contact' => 'site/contact',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -79,23 +79,23 @@ return [
                     'baseUrl' => '@web',
                     'css' => ['css/bootstrap.min.css'],
                 ],
-                'yii\bootstrap\BootstrapPluginAsset' => [
+                /* 'yii\bootstrap\BootstrapPluginAsset' => [
                     'sourcePath' => null,
                     'basePath' => '@webroot',
                     'baseUrl' => '@web',
                     'js' => ['js/bootstrap.min.js'],
-                ],
+                ], */
             ],
         ],
 
         'formatter' =>
-            [
-                'class' => 'yii\i18n\Formatter',
-                'dateFormat' => 'php:d.m.Y',
-                'datetimeFormat' => 'php:d.m.Y H:i a',
-                'timeFormat' => 'php:H:i A',
-                'timeZone' => 'Asia/Bishkek',
-            ],
+        [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'php:d.m.Y',
+            'datetimeFormat' => 'php:d.m.Y H:i a',
+            'timeFormat' => 'php:H:i A',
+            'timeZone' => 'Asia/Bishkek',
+        ],
 
     ],
     'params' => $params,

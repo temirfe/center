@@ -8,6 +8,7 @@ use frontend\models\ArticleSearch;
 use yii\web\NotFoundHttpException;
 use yii\data\ActiveDataProvider;
 use yii\imagine\Image;
+use Exception;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
@@ -24,17 +25,22 @@ class ArticleController extends MyController
         else{
             $content_lang='0';
         }*/
-        $ctg=Yii::$app->request->get('category');
-        if($ctg){$query=Article::find()->where(['category_id'=>$ctg]);}
-        else{$query=Article::find();}
+        $query = Article::find();
+        $ctg = Yii::$app->request->get('category');
+        $proj = Yii::$app->request->get('project_id');
+        if ($ctg) {
+            $query = $query->where(['category_id' => $ctg]);
+        }
+        if ($proj) {
+            $query = $query->innerJoinWith('items')->where(['project_id' => $proj, 'item' => 'article']);
+        }
+        $query->orderBy('id DESC');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
                 'pageSize' => 20,
             ],
-            'sort'=> ['defaultOrder' => ['id'=>SORT_DESC]]
         ]);
-
         return $this->render('list', [
             'dataProvider' => $dataProvider,
         ]);
@@ -62,8 +68,8 @@ class ArticleController extends MyController
      */
     public function actionView($id)
     {
-        $model=$this->findModel($id);
-        $model->updateCounters(['views'=>1]);
+        $model = $this->findModel($id);
+        $model->updateCounters(['views' => 1]);
         return $this->render('view', [
             'model' => $model,
         ]);
@@ -135,7 +141,8 @@ class ArticleController extends MyController
         }
     }
 
-    public function actionRun(){
+    public function actionRun()
+    {
 
         /*$dir=Yii::getAlias('@webroot')."/images/article/";
 
@@ -146,8 +153,8 @@ class ArticleController extends MyController
                 Image::thumbnail($tosave.'/'.$row['image'],600, 340)->save($tosave.'/m_'.$row['image']);
             }
         }*/
-        $model=$this->findModel(231);
-        $model->updateCounters(['views'=>1]);
+        $model = $this->findModel(231);
+        $model->updateCounters(['views' => 1]);
         echo 'good';
     }
 }

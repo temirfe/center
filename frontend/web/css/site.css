@@ -259,6 +259,7 @@ a.red:hover{color:#e9465b;}
 .font-half{font-size: 50%;}
 .iblock{display: inline-block;}
 .w100{width:100%;}
+.w300px{width:300px;}
 .hover_bg:hover{background-color: #f9f9f9;}
 .ellip{overflow: hidden;  text-overflow: ellipsis;}
 .bold{font-weight:bold;}

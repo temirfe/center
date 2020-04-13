@@ -8,6 +8,7 @@ use frontend\models\EventSearch;
 use yii\web\NotFoundHttpException;
 use frontend\models\Attendant;
 use yii\data\ActiveDataProvider;
+
 /**
  * EventController implements the CRUD actions for Event model.
  */
@@ -37,19 +38,24 @@ class EventController extends MyController
         else{
             $content_lang='0';
         }*/
+        $uQuery = Event::find();
+        $pQuery = Event::find();
+        $proj = Yii::$app->request->get('project_id');
+        if ($proj) {
+            $uQuery  = $uQuery->innerJoinWith('items')->where(['project_id' => $proj, 'item' => 'event']);
+            $pQuery  = $pQuery->innerJoinWith('items')->where(['project_id' => $proj, 'item' => 'event']);
+        }
         $upcomingDataProvider = new ActiveDataProvider([
-            'query' => Event::find()->where("date_end>NOW()"),
+            'query' => $uQuery->andWhere("date_end>NOW()")->orderBy('id DESC'),
             'pagination' => [
                 'pageSize' => 100,
             ],
-            'sort'=> ['defaultOrder' => ['title'=>SORT_ASC]]
         ]);
         $pastDataProvider = new ActiveDataProvider([
-            'query' => Event::find()->where("date_end<NOW()"),
+            'query' => $pQuery->where("date_end<NOW()")->orderBy('id DESC'),
             'pagination' => [
                 'pageSize' => 100,
             ],
-            'sort'=> ['defaultOrder' => ['title'=>SORT_ASC]]
         ]);
 
         return $this->render('list', [
@@ -68,7 +74,7 @@ class EventController extends MyController
         $amodel = new Attendant();
         return $this->render('view', [
             'model' => $this->findModel($id),
-            'amodel'=>$amodel
+            'amodel' => $amodel
         ]);
     }
 

@@ -3,50 +3,39 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Video;
-use frontend\models\VideoSearch;
-use yii\data\ActiveDataProvider;
+use frontend\models\Project;
+use frontend\models\ProjectSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\VerbFilter;
 
 /**
- * VideoController implements the CRUD actions for Video model.
+ * ProjectController implements the CRUD actions for Project model.
  */
-class VideoController extends MyController
+class ProjectController extends Controller
 {
-
-    public function actionList()
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
     {
-        /*if(Yii::$app->language=='ru')
-        {
-            $content_lang='1';
-        }
-        else{
-            $content_lang='0';
-        }*/
-        $query = Video::find()->orderBy('id DESC');
-        $proj = Yii::$app->request->get('project_id');
-        if ($proj) {
-            $query = $query->innerJoinWith('items')->where(['project_id' => $proj, 'item' => 'video']);
-        }
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'pagination' => [
-                'pageSize' => 20,
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
             ],
-        ]);
-
-        return $this->render('list', [
-            'dataProvider' => $dataProvider,
-        ]);
+        ];
     }
 
     /**
-     * Lists all Video models.
+     * Lists all Project models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new VideoSearch();
+        $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,42 +45,42 @@ class VideoController extends MyController
     }
 
     /**
-     * Displays a single Video model.
+     * Displays a single Project model.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $model->updateCounters(['views' => 1]);
         return $this->render('view', [
-            'model' => $model
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Video model.
+     * Creates a new Project model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Video();
+        $model = new Project();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Updates an existing Video model.
+     * Updates an existing Project model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
@@ -99,18 +88,19 @@ class VideoController extends MyController
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+        ]);
     }
 
     /**
-     * Deletes an existing Video model.
+     * Deletes an existing Project model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionDelete($id)
     {
@@ -120,18 +110,18 @@ class VideoController extends MyController
     }
 
     /**
-     * Finds the Video model based on its primary key value.
+     * Finds the Project model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Video the loaded model
+     * @return Project the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Video::findOne($id)) !== null) {
+        if (($model = Project::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 }

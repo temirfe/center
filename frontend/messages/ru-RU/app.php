@@ -107,6 +107,11 @@ return [
     'Create Comment' => 'Добавить Комментарий',
     'Update Comment' => 'Редактировать Комментарий',
 
+    'Project' => 'Проект',
+    'Projects' => 'Проекты',
+    'Create Project' => 'Добавить проект',
+    'Update Project: {name}' => 'Редактировать: {name}',
+
     'Upcoming events' => 'Предстоящие мероприятия',
     'Upcoming event' => 'Предстоящее мероприятие',
     'Past events' => 'Прошедшие мероприятия',
@@ -114,11 +119,11 @@ return [
     'Going' => 'Идёт',
     'Starts at' => 'Начало в',
     'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you'
-        => 'Если у вас есть вопросы, пожалуйста, заполните следующую форму. Спасибо',
+    => 'Если у вас есть вопросы, пожалуйста, заполните следующую форму. Спасибо',
     'Verification Code' => 'Код подтверждения',
     'Message' => 'Сообщение',
     'Name' => 'Имя',
-    'Are you sure you want to delete?'=>'Вы уверены что хотите удалить?',
+    'Are you sure you want to delete?' => 'Вы уверены что хотите удалить?',
     'List' => 'Список',
     'Delete' => 'Удалить',
     'Add item' => 'Добавить',
@@ -147,6 +152,7 @@ return [
     'All rights reserved.' => 'Все права защищены',
     'Follow us on ' => 'Следите за нами в соцсетях: ',
     'Our partners' => 'Наши партнёры',
+    'Partners' => 'Партнёры',
     'Attendants' => 'Участники',
     'Materials' => 'Материалы',
     'Save' => 'Сохранить',

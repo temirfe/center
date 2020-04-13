@@ -18,6 +18,7 @@ use Yii;
  */
 class Video extends \yii\db\ActiveRecord
 {
+    public $project_id;
     /**
      * @inheritdoc
      */
@@ -33,7 +34,7 @@ class Video extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'link',], 'required'],
-            [['date_create','video_id','views'], 'safe'],
+            [['date_create', 'video_id', 'views', 'project_id'], 'safe'],
             [['title'], 'string', 'max' => 500],
             [['description'], 'string', 'max' => 1000],
             [['link', 'thumb'], 'string', 'max' => 100],
@@ -53,6 +54,7 @@ class Video extends \yii\db\ActiveRecord
             'thumb' => Yii::t('app', 'Thumb'),
             'date_create' => Yii::t('app', 'Date Create'),
             'views' => Yii::t('app', 'Views'),
+            'project_id' => Yii::t('app', 'Project'),
         ];
     }
 
@@ -64,9 +66,23 @@ class Video extends \yii\db\ActiveRecord
         if (parent::beforeSave($insert)) {
 
             if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $this->link, $match)) {
-                $this->video_id=$match[1];
-                $this->thumb="https://img.youtube.com/vi/".$this->video_id ."/mqdefault.jpg";
-
+                $this->video_id = $match[1];
+                $this->thumb = "https://img.youtube.com/vi/" . $this->video_id . "/mqdefault.jpg";
+            }
+            $dao = Yii::$app->db;
+            $prev = $dao->createCommand("SELECT * FROM project_items WHERE item_id='{$this->id}' AND item='video'")->queryOne();
+            if ($this->project_id) {
+                if ($prev) {
+                    if ($prev['project_id'] != $this->project_id) {
+                        $dao->createCommand()->update('project_items', ['project_id' => $this->project_id], ['id' => $prev['id']])->execute();
+                    }
+                } else {
+                    $dao->createCommand()->insert('project_items', ['project_id' => $this->project_id, 'item' => 'video', 'item_id' => $this->id])->execute();
+                }
+            } else {
+                if ($prev) {
+                    $dao->createCommand()->delete('project_items', ['id' => $prev['id']])->execute();
+                }
             }
 
             return true;
@@ -74,6 +90,8 @@ class Video extends \yii\db\ActiveRecord
             return false;
         }
     }
-
-
+    public function getItems()
+    {
+        return $this->hasMany(ProjectItems::className(), ['item_id' => 'id']);
+    }
 }
