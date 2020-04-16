@@ -14,7 +14,7 @@ class SpecialcharsAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [];
     public $js = [
-        'js/specialchars.js'
+        'js/specialchars.min.js'
     ];
     public $depends = [
         'vova07\imperavi\Asset'

@@ -1,15 +1,12 @@
-(function($)
-{
-    $.Redactor.prototype.specialchars= function()
-    {
+(function ($) {
+    $.Redactor.prototype.specialchars = function () {
         return {
             translations: {
                 en: {
                     "specialchars": "Special Characters"
                 }
             },
-            init: function()
-            {
+            init: function () {
                 this.app = this;
                 this.lang = this.lang;
                 this.toolbar = this.toolbar;
@@ -21,7 +18,7 @@
                     '&lsquo;', '&rsquo;', '&ldquo;', '&rdquo;', '&ndash;', '&mdash;', '&divide;', '&hellip;', '&trade;', '&bull;',
                     '&rarr;', '&asymp;', '$', '&euro;', '&cent;', '&pound;', '&yen;', '&iexcl;',
                     '&curren;', '&brvbar;', '&sect;', '&uml;', '&copy;', '&ordf;', '&laquo;', '&raquo;', '&not;', '&reg;', '&macr;',
-                    '&deg;', '&sup1;', '&sup2;', '&sup3;', '&acute;', '&micro;', '&para;', '&middot;', '&cedil;',  '&ordm;',
+                    '&deg;', '&sup1;', '&sup2;', '&sup3;', '&acute;', '&micro;', '&para;', '&middot;', '&cedil;', '&ordm;',
                     '&frac14;', '&frac12;', '&frac34;', '&iquest;', '&Agrave;', '&Aacute;', '&Acirc;', '&Atilde;', '&Auml;', '&Aring;',
                     '&AElig;', '&Ccedil;', '&Egrave;', '&Eacute;', '&Ecirc;', '&Euml;', '&Igrave;', '&Iacute;', '&Icirc;', '&Iuml;',
                     '&ETH;', '&Ntilde;', '&Ograve;', '&Oacute;', '&Ocirc;', '&Otilde;', '&Ouml;', '&times;', '&Oslash;', '&Ugrave;',
@@ -33,8 +30,7 @@
                 ];
             },
             // public
-            start: function()
-            {
+            start: function () {
                 var btnObj = {
                     title: this.lang.get('specialchars')
                 };
@@ -47,24 +43,20 @@
             },
 
             // private
-            _set: function(character)
-            {
+            _set: function (character) {
                 this.insertion.insertChar(character);
             },
-            _buildDropdown: function()
-            {
+            _buildDropdown: function () {
                 var self = this;
                 var $dropdown = $.Redactor.dom('<div class="redactor-dropdown-cells">');
-                var func = function(e)
-                {
+                var func = function (e) {
                     e.preventDefault();
 
                     var $el = $.Redactor.dom(e.target);
                     self._set($el.data('char'));
                 };
 
-                for (var i = 0; i < this.chars.length; i++)
-                {
+                for (var i = 0; i < this.chars.length; i++) {
                     var $el = $.Redactor.dom('<a>');
                     $el.attr({ 'href': '#', 'data-char': this.chars[i] });
                     $el.css({ 'line-height': '32px', 'width': '32px', 'height': '32px' });

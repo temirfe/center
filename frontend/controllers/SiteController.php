@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\controllers;
 
 use Yii;
@@ -13,8 +14,11 @@ use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
+use Imagine\Image\Box;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+
 /**
  * Site controller
  */
@@ -64,29 +68,58 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
-            'image-upload' => [
+            /* 'image-upload' => [
                 'class' => 'vova07\imperavi\actions\UploadFileAction',
                 'url' => '/upload/', // Directory URL address, where files are stored.
-                'path' => Yii::getAlias('@webroot').'/upload', // Or absolute path to directory where files are stored.
+                'path' => Yii::getAlias('@webroot') . '/upload', // Or absolute path to directory where files are stored.
                 'uploadOnlyImage' => true, // For any kind of files uploading.
-            ],
+            ], */
             'images-get' => [
                 'class' => 'vova07\imperavi\actions\GetImagesAction',
                 'url' => '/upload/', // Directory URL address, where files are stored.
-                'path' =>  Yii::getAlias('@webroot').'/upload', // Or absolute path to directory where files are stored.
+                'path' =>  Yii::getAlias('@webroot') . '/upload', // Or absolute path to directory where files are stored.
                 'options' => ['only' => ['*.jpg', '*.jpeg', '*.png', '*.gif', '*.ico']], // These options are by default.
             ],
         ];
     }
 
-    public function actionEditorUpload(){
-        $file=UploadedFile::getInstanceByName('upload');
-        $imageName=time().'.'.$file->extension;
-        $dir=Yii::getAlias('@webroot')."/upload";
-        $file->saveAs($dir.'/' . $imageName);
+    //tinyMce
+    public function actionImageUpload()
+    {
+        $file = UploadedFile::getInstanceByName('file');
+        if ($file) {
+            $imageName = time() . '.' . $file->extension;
+            $dir = Yii::getAlias('@webroot') . "/upload";
+            $file->saveAs($dir . '/' . $imageName);
+            if (Yii::$app->request->serverName == 'center.loc') {
+                Image::$driver = [Image::DRIVER_GD2];
+            }
+            $imagine = Image::getImagine()->open($dir . '/' . $imageName);
+            $imagine->thumbnail(new Box(1500, 1000))->save($dir . '/' . $imageName);
+
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return ['location' => '/upload/' . $imageName];
+        }
     }
-    public function actionEditorBrowse(){
-        return $dir=Yii::getAlias('@webroot')."/upload";
+
+    public function beforeAction($action)
+    {
+        if ($this->action->id == 'image-upload') {
+            $this->enableCsrfValidation = false;
+        }
+        return parent::beforeAction($action);
+    }
+
+    public function actionEditorUpload()
+    {
+        $file = UploadedFile::getInstanceByName('upload');
+        $imageName = time() . '.' . $file->extension;
+        $dir = Yii::getAlias('@webroot') . "/upload";
+        $file->saveAs($dir . '/' . $imageName);
+    }
+    public function actionEditorBrowse()
+    {
+        return $dir = Yii::getAlias('@webroot') . "/upload";
     }
     /**
      * Displays homepage.
@@ -100,47 +133,50 @@ class SiteController extends Controller
 
     public function actionDemo()
     {
-        $this->layout='//empty';
+        $this->layout = '//empty';
         return $this->render('under_construction');
     }
-    
+
     public function actionSearch()
     {
-        $page='';
-        $expert='';
-        $article='';
-        $event='';
-        
-        $queryWord=Yii::$app->request->get('search');
-        $ctg=Yii::$app->request->get('category');
-        if(Yii::$app->language=='ru'){$langInt='1';} else{$langInt='0';}
-        if($queryWord && strlen($queryWord)>=3)
-        {
+        $page = '';
+        $expert = '';
+        $article = '';
+        $event = '';
+
+        $queryWord = Yii::$app->request->get('search');
+        $ctg = Yii::$app->request->get('category');
+        if (Yii::$app->language == 'ru') {
+            $langInt = '1';
+        } else {
+            $langInt = '0';
+        }
+        if ($queryWord && strlen($queryWord) >= 3) {
             //$results=$pages||$news || $events ? array_merge($pages, $news, $events):null;
 
-            $query=new Query();
-            if($ctg=='all' || $ctg=='page'){
-                $page=$query->select(['id', 'title','text'])
+            $query = new Query();
+            if ($ctg == 'all' || $ctg == 'page') {
+                $page = $query->select(['id', 'title', 'text'])
                     ->from('page')
-                    ->where("title LIKE :search OR text LIKE :search", [':search' =>"%{$queryWord}%"])
+                    ->where("title LIKE :search OR text LIKE :search", [':search' => "%{$queryWord}%"])
                     ->all();
             }
-            if($ctg=='all' || $ctg=='article'){
-                $article=$query->select(['id', 'title','text','image'])
+            if ($ctg == 'all' || $ctg == 'article') {
+                $article = $query->select(['id', 'title', 'text', 'image'])
                     ->from('article')
-                    ->where("title LIKE :search OR text LIKE :search", [':search' =>"%{$queryWord}%"])
+                    ->where("title LIKE :search OR text LIKE :search", [':search' => "%{$queryWord}%"])
                     ->all();
             }
-            if($ctg=='all' || $ctg=='event'){
-                $event=$query->select(['id', 'title','text'])
+            if ($ctg == 'all' || $ctg == 'event') {
+                $event = $query->select(['id', 'title', 'text'])
                     ->from('event')
-                    ->where("title LIKE :search OR text LIKE :search", [':search' =>"%{$queryWord}%"])
+                    ->where("title LIKE :search OR text LIKE :search", [':search' => "%{$queryWord}%"])
                     ->all();
             }
-            if($ctg=='all' || $ctg=='expert'){
-                $expert=$query->select(['id', 'title','description','image'])
+            if ($ctg == 'all' || $ctg == 'expert') {
+                $expert = $query->select(['id', 'title', 'description', 'image'])
                     ->from('expert')
-                    ->where("content LIKE :search", [':search' =>"%{$queryWord}%"])
+                    ->where("content LIKE :search", [':search' => "%{$queryWord}%"])
                     ->all();
             }
             /*$decree=$query->select(['id', 'title','content'])
@@ -152,14 +188,14 @@ class SiteController extends Controller
                 ->where('title LIKE :search OR title_ru LIKE :search OR description LIKE :search or description_ru LIKE :search', [':search' =>"%{$_POST['search']}%"])
                 ->all();*/
         }
-        return $this->render('searchResult',[
-            'page'=>$page,
-            'article'=>$article,
-            'event'=>$event,
-            'expert'=>$expert,
-            'langInt'=>$langInt,
-            'queryWord'=>$queryWord,
-            'ctg'=>$ctg
+        return $this->render('searchResult', [
+            'page' => $page,
+            'article' => $article,
+            'event' => $event,
+            'expert' => $expert,
+            'langInt' => $langInt,
+            'queryWord' => $queryWord,
+            'ctg' => $ctg
         ]);
     }
 
@@ -241,16 +277,16 @@ class SiteController extends Controller
 
     public function actionExplore()
     {
-        $dao=Yii::$app->db;
-        $cities=$dao->createCommand("SELECT id,title, image FROM city")->cache(86000)->queryAll();
-        return $this->render('explore',['cities'=>$cities]);
+        $dao = Yii::$app->db;
+        $cities = $dao->createCommand("SELECT id,title, image FROM city")->cache(86000)->queryAll();
+        return $this->render('explore', ['cities' => $cities]);
     }
 
     public function actionDestinations()
     {
         //$dao=Yii::$app->db;
         //$cities=$dao->createCommand("SELECT id,title, image FROM city")->cache(86000)->queryAll();
-        return $this->render('destinations',['cities'=>'']);
+        return $this->render('destinations', ['cities' => '']);
     }
 
     /**
@@ -323,35 +359,33 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionImgDelete($id,$model_name)
+    public function actionImgDelete($id, $model_name)
     {
-        $key=Yii::$app->request->post('key');
-        $webroot=Yii::getAlias('@webroot');
-        if(is_dir($dir=$webroot."/images/{$model_name}/".$id))
-        {
-            if(is_file($dir.'/'.$key)){
-                $expl=explode('_',$key);
-                $full=$expl[1];
-                @unlink($dir.'/'.$key);
-                @unlink($dir.'/'.$full);
+        $key = Yii::$app->request->post('key');
+        $webroot = Yii::getAlias('@webroot');
+        if (is_dir($dir = $webroot . "/images/{$model_name}/" . $id)) {
+            if (is_file($dir . '/' . $key)) {
+                $expl = explode('_', $key);
+                $full = $expl[1];
+                @unlink($dir . '/' . $key);
+                @unlink($dir . '/' . $full);
                 Yii::$app->db->createCommand("UPDATE {$model_name} SET image='' WHERE id='{$id}'")->execute();
             }
         }
-        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return true;
     }
 
-    public function actionFileDelete($id,$model_name)
+    public function actionFileDelete($id, $model_name)
     {
-        $key=Yii::$app->request->post('key');
-        $webroot=Yii::getAlias('@webroot');
-        if(is_dir($dir=$webroot."/files/{$model_name}/".$id))
-        {
-            if(is_file($dir.'/'.$key)){
-                unlink($dir.'/'.$key);
+        $key = Yii::$app->request->post('key');
+        $webroot = Yii::getAlias('@webroot');
+        if (is_dir($dir = $webroot . "/files/{$model_name}/" . $id)) {
+            if (is_file($dir . '/' . $key)) {
+                unlink($dir . '/' . $key);
             }
         }
-        Yii::$app->response->format=\yii\web\Response::FORMAT_JSON;
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         return true;
     }
 }

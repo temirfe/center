@@ -70,7 +70,7 @@ if ($proj_id) {
     ?>
 
     <?php
-    echo $form->field($model, 'text')->widget(ImperaviWidget::className(), [
+    /* echo $form->field($model, 'text')->widget(ImperaviWidget::className(), [
         'settings' => [
             'lang' => 'ru',
             'minHeight' => 200,
@@ -83,13 +83,19 @@ if ($proj_id) {
                 'fullscreen',
                 'imagemanager',
                 'table',
-                //'specialchars'
+                'sup'
             ],
+            'clips' => [
+                ['Сноска 1', '<sup>1</sup>'],
+                ['greens', '<span class="label-green">green</span>'],
+            ],
+
         ],
         'plugins' => [
-            'specialchars' => 'frontend\assets\SpecialcharsAsset'
+            'specialchars' => SpecialcharsAsset::class
         ],
-    ]);
+    ]); */
+    echo $form->field($model, 'text')->textarea();
     ?>
 
 

@@ -68,6 +68,24 @@ foreach ($projects as $dest) {
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.tiny.cloud/1/jhojbbdet9hzseet64kk7386pb6gx801keh0vaqb5pbwngrn/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: [
+                'advlist autolink lists link image imagetools charmap',
+                'searchreplace visualblocks fullscreen code',
+                'insertdatetime media table paste hr emoticons wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | ' +
+                'bold italic | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | charmap emoticons | insertfile image media link | fullscreen',
+            images_upload_url: '/site/image-upload',
+            images_upload_credentials: true,
+            language: 'ru'
+        });
+    </script>
 </head>
 
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="140" id="top">
